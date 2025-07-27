@@ -1,0 +1,52 @@
+body{margin: 0; box-sizing: border-box; }
+a:hover{text-decoration: none; }
+
+.switch {position: relative; display: inline-block; width: 50px; height: 25px; }
+.switch input {opacity: 0; width: 0; height: 0; }
+.switch .slider {position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 25px; }
+.switch .slider:before {position: absolute; content: ""; height: 19px; width: 19px; left: 3px; bottom: 3px; background-color: white; transition: 0.4s; border-radius: 50%; }
+.switch .label{white-space: nowrap; }
+.switch input:checked + .slider {background-color: #4caf50; }
+.switch input:checked + .slider:before {transform: translateX(25px); }
+.switch input:checked ~ .label2 {display: none; }
+.switch input:not(:checked) ~ .label1 {display: none; }
+
+.table_nums {}
+.table_nums .table_num .tables_item_wrp {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+.table_nums .table_num.available .tables_item_wrp{
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #155724;
+}
+.table_nums .table_num.not_available .tables_item_wrp{
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #721c24;
+}
+
+/* Order place START */
+.group_name {font-size: 8px; }
+.menu_wrap .title {font-size: 6px; }
+
+.customer_order_list {display: flex; flex-wrap: wrap; gap: 15px; }
+.customer_order_list .customer_orders {border: 1px solid; padding: 15px; }
+
+.qty_input {position: relative; width: 100px; display: flex; }
+.qty_input .qty_eul{border: 1px solid #ddd; cursor: pointer; position: relative; outline: none; flex: 1; }
+.qty_input .qty_eul:before,
+.qty_input .qty_eul:after{content: ''; --width_pm: 10px; --height_pm: 2px; position: absolute; left: 0; right: 0; bottom: 0; top: 0; margin: auto; background: #000; }
+.qty_input .qty_eul:before{width: var(--width_pm); height: var(--height_pm); }
+.qty_input .qty_eul:after{width: var(--height_pm); height: var(--width_pm); }
+.qty_input .qty_eul.qty_min:after{opacity: 0; }
+.qty_input .qty_val {border: none; outline: none; width: 40px; text-align: center; }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {-webkit-appearance: none; margin: 0; }
+/* Order place END */
