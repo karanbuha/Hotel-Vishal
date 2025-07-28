@@ -1,21 +1,23 @@
 <?php
 include 'db.php';
-// if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
-//     $userId = $_COOKIE['remember_me'];
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
+    $userId = $_COOKIE['remember_me'];
 
-//     $sql = "SELECT * FROM users WHERE id = ?";
-//     $stmt = $conn->prepare($sql);
-//     $stmt->bind_param("i", $userId);
-//     $stmt->execute();
-//     $res = $stmt->get_result();
+    $sql = "SELECT * FROM users WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $res = $stmt->get_result();
 
-//     if ($res->num_rows === 1) {
-//         $user = $res->fetch_assoc();
-//         $_SESSION['user_id'] = $user['id'];
-//         $_SESSION['role'] = $user['role'];
-//         header("Location: " . $web . $user['role'] . "/");
-//     }
-// }
+    if ($res->num_rows === 1) {
+        $user = $res->fetch_assoc();
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['role'] = $user['role'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['password'] = $user['password'];
+        header("Location: " . $web . $user['role'] . "/");
+    }
+}
 
     if( isset($_SESSION['role']) ){
         header("Location:" .$web .$_SESSION['role'] );
@@ -38,7 +40,7 @@ include 'db.php';
             $_SESSION['password'] = $row['password'];
 
             setcookie("remember_me", $row['id'], time() + (15 * 24 * 60 * 60), "/");
-            // header("Location:" .$web .$_SESSION['role'] );
+            header("Location:" .$web .$_SESSION['role'] );
 
         }else{
             $error = "Invalid username or password.";
@@ -59,9 +61,6 @@ include 'db.php';
 </head>
 <body>
 
-<?php if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {?>
-
-<?php } else{ ?>
     <div class="row justify-content-center">
         <div class="col-md-4">
             <div class="card shadow-sm">
@@ -83,6 +82,6 @@ include 'db.php';
             </div>
         </div>
     </div>
-<?php } ?>
+
 </body>
 </html>

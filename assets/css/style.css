@@ -36,7 +36,7 @@ a:hover{text-decoration: none; }
 .group_name {font-size: 8px; }
 .menu_wrap .title {font-size: 6px; }
 
-.customer_order_list {display: flex; flex-wrap: wrap; gap: 15px; }
+.customer_order_list {display: flex; flex-wrap: wrap; gap: 10px; }
 .customer_order_list .customer_orders {border: 1px solid; padding: 15px; }
 
 .qty_input {position: relative; width: 100px; display: flex; }

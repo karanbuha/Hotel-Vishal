@@ -21,7 +21,7 @@
 				}
 			?>
 				<div class="table_num <?php echo $available_is ?> col-6 col-sm-4 mb-3 mb-md-3 px-2 px-sm-2">
-					<a href="<?php echo 'order.php?i_id='.$row['t_num'] ?>" class="tables_item_wrp text-decoration-none">
+					<a href="<?php echo $admin.'orders/?i_id='.$row['t_num'] ?>" class="tables_item_wrp text-decoration-none">
 						<?php echo '<span>Table '.$row['t_num'] .'</span>'; ?>
 						<?php
 							echo '<div>' . $ava_txt . '</div>';
