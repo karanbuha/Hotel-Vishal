@@ -43,7 +43,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <a class="navbar-brand" href="<?php echo "{$admin}"; ?>">
             <img src="<?php echo $logo; ?>" width="200" height="" class="d-inline-block align-top" alt="Bootstrap">
         </a>
@@ -56,7 +56,7 @@
                     <a class="nav-link" href="<?php echo "{$admin}"; ?>">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo "{$admin}today_orders.php"; ?>">Today Orders</a>
+                    <a class="nav-link" href="<?php echo "{$admin}today_orders/"; ?>">Today Orders</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo "{$admin}"; ?>">Pricing</a>
