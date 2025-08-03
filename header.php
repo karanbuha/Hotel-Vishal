@@ -42,25 +42,28 @@
     <link rel="stylesheet" type="text/css" href="<?php echo "{$web}assets/css/style.css"; ?>">
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <a class="navbar-brand" href="<?php echo "{$admin}"; ?>">
-            <img src="<?php echo $logo; ?>" width="200" height="" class="d-inline-block align-top" alt="Bootstrap">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo "{$admin}"; ?>">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo "{$admin}today_orders/"; ?>">Today Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo "{$admin}"; ?>">Pricing</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<div class="header_main navbar-light bg-light border-bottom">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg pr-0 pl-0">
+            <a class="navbar-brand pt-0 pb-0" href="<?php echo "{$admin}"; ?>">
+                <img src="<?php echo $logo; ?>" width="150" height="" class="d-inline-block align-top" alt="Bootstrap">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="<?php echo "{$admin}"; ?>">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo "{$admin}today_orders/"; ?>">Today Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo "{$admin}"; ?>">Pricing</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>

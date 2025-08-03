@@ -59,23 +59,37 @@ if ($row['status'] == 'not_available') {
 
         <div class="customer_order_details">
             <?php
-                $sql = "SELECT * FROM orders WHERE t_id = $t_id";
+                // $sql = "SELECT * FROM orders WHERE t_id = $t_id AND status = 'pending' ";
+                $sql = "SELECT * FROM orders WHERE t_id = $t_id ";
+
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
                     echo "
-                        <table border='1' cellpadding='6' >
+                        <div class='row flex-wrap align-items-start'>
                     ";
                     while ($row = $result->fetch_assoc()) {?>
+                    <div class='col col-sm-6'>
+                        <table class='table table-striped' >
                             <tr>
                                 <!-- <a href='place_order.php?o_id={$row['id']}'>Add Order</a> -->
-                                <th colspan="5" cellpadding="10">
+                                <th colspan="6" cellpadding="10">
                                     <?php 
                                         echo "
                                         Name: {$row['c_name']} (M: {$row['c_num']}) <br>
-                                        Date. {$row['date']} <br> Dine In: {$t_id}
+                                        Date. {$row['date']} <br> Dine In: {$t_id} - Order. #{$row['id']} <br>
+                                        <a href='place_order.php?o_id={$row['id']}'>Add Order</a> <br>
                                         ";
                                     ?>
+                                    <label class="switch">
+                                        <input type="checkbox" class="bill_generate" 
+                                            data-orderid="<?= $row['id'] ?>" 
+                                            <?= $row['status'] === 'paid' ? 'checked' : '' ?>>
+                                        <span class="slider"></span>
+                                        <span class="status-label text-nowrap">
+                                            bill <?= $row['status'] === 'paid' ? 'paid' : 'pending' ?>
+                                        </span>
+                                    </label>
                                 </th>
                             </tr>
 
@@ -85,6 +99,7 @@ if ($row['status'] == 'not_available') {
                                 <th>price</th>
                                 <th>ammount</th>
                                 <th>status</th>
+                                <th>action</th>
                             </tr>
 
                                     <?php
@@ -111,13 +126,13 @@ if ($row['status'] == 'not_available') {
 
                                     <tbody>
                                     <?php while ($item = $result_items->fetch_assoc()): ?>
-                                        <tr>
+                                        <tr data-id="<?= number_format($item['id']) ?>">
                                             <td><?= htmlspecialchars($item['en_name']) ?></td>
                                             <td><?= $item['quantity'] ?></td>
                                             <td><?= number_format($item['price'], 2) ?></td>
                                             <td><?= number_format($item['amount'], 2) ?></td>
                                             <td width="100">
-                                                 <label class="switch">
+                                                <label class="switch">
                                                     <input type="checkbox" class="orderStatus" 
                                                         data-itemid="<?= $item['id'] ?>" 
                                                         <?= $item['status'] === 'delivered' ? 'checked' : '' ?>>
@@ -126,6 +141,11 @@ if ($row['status'] == 'not_available') {
                                                         <?= $item['status'] === 'delivered' ? 'delivered' : 'pending' ?>
                                                     </span>
                                                 </label>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary delete-btn" >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16"><path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"></path></svg>
+                                                </button>
                                             </td>
                                         </tr>
                                         <?php 
@@ -142,34 +162,43 @@ if ($row['status'] == 'not_available') {
                                     ?>
 
                                     <tfoot>
-                                        <tr>
+                                        <tr class="table-primary">
                                             <td>Total Qty</td>
                                             <td><?= $total_qty ?></td>
                                             <td>Sub Total</td>
                                             <td>₹<?= number_format($sub_total, 2) ?></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        <tr>
+                                        <tr class="">
                                             <td></td>
                                             <td>CGST</td>
                                             <td>2.5%</td>
                                             <td>₹<?= number_format($cgst, 2) ?></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        <tr>
+                                        <tr class="">
                                             <td></td>
                                             <td>SGST</td>
                                             <td>2.5%</td>
                                             <td>₹<?= number_format($sgst, 2) ?></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                        <tr>
-                                            <th>Grand Total</th>
-                                            <th colspan="3">₹<?= number_format($grand_total, 2) ?></th>
+                                        <tr class="table-success">
+                                            <th class="text-right" colspan="3">Grand Total</th>
+                                            <th>₹<?= number_format($grand_total, 2) ?></th>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                     </tfoot>
 
                               
-                        
+                        </table>
+                    </div>
                     <?php }
-                    echo "</table>";
+                    echo "</div>";
                 } else {
                     echo "<p>Customer order not placed.</p>";
                 }
@@ -185,37 +214,87 @@ $(document).ready(function() {
     var t_id = $(this).data('tid');
 
     $.ajax({
-      url: 'table_update_status.php',  // This will be the PHP file handling update
-      method: 'POST',
-      data: { t_id: t_id, status: isChecked },
-      success: function(response) {
-        // alert('Status updated successfully!');
-      },
-      error: function() {
-        // alert('Failed to update status.');
-      }
+        url: 'table_update_status.php',  // This will be the PHP file handling update
+        method: 'POST',
+        data: { t_id: t_id, status: isChecked },
+            success: function(response) {
+            // alert('Status updated successfully!');
+            },
+            error: function() {
+            // alert('Failed to update status.');
+            }
+        });
     });
-  });
 
-$('.orderStatus').change(function() {
-    var checkbox = $(this);
-    var status = checkbox.is(':checked') ? 'delivered' : 'pending';
-    var item_id = checkbox.data('itemid');
+    $('.orderStatus').change(function() {
+        var checkbox = $(this);
+        var status = checkbox.is(':checked') ? 'delivered' : 'pending';
+        var item_id = checkbox.data('itemid');
+
+        $.ajax({
+            url: 'update_item_status.php',
+            type: 'POST',
+            data: {
+                item_id: item_id,
+                status: status
+            },
+            success: function(response) {
+                console.log(response);
+                // Update label text
+                checkbox.closest('label').find('.status-label').text(status);
+            },
+            error: function() {
+                alert("Failed to update item status.");
+            }
+        });
+    });
+
+    $(document).on('click', '.delete-btn', function () {
+        if (!confirm("Are you sure you want to delete this item?")) return;
+
+        let row = $(this).closest('tr');
+        let itemId = row.data('id');
+
+        $.ajax({
+            url: 'delete-order-item.php',
+            type: 'POST',
+            data: { id: itemId },
+            success: function (response) {
+                if (response === 'success') {
+                    row.remove(); // remove row from UI
+                } else {
+                    alert("Failed to delete item.");
+                }
+            },
+            error: function () {
+                alert("Server error.");
+            }
+        });
+    });
+
+$(document).on('change', '.bill_generate', function () {
+    let checkbox = $(this);
+    let orderId = checkbox.data('orderid');
+    let newStatus = checkbox.is(':checked') ? 'paid' : 'pending';
 
     $.ajax({
-        url: 'update_item_status.php',
-        type: 'POST',
+        url: 'update-bill-status.php',
+        method: 'POST',
         data: {
-            item_id: item_id,
-            status: status
+            id: orderId,
+            status: newStatus
         },
         success: function(response) {
-            console.log(response);
-            // Update label text
-            checkbox.closest('label').find('.status-label').text(status);
+            if(response === 'success') {
+                checkbox.siblings('.status-label').text('bill ' + newStatus);
+            } else {
+                alert('Update failed.');
+                checkbox.prop('checked', !checkbox.is(':checked')); // undo checkbox
+            }
         },
         error: function() {
-            alert("Failed to update item status.");
+            alert('Server error.');
+            checkbox.prop('checked', !checkbox.is(':checked')); // undo checkbox
         }
     });
 });
