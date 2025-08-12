@@ -26,9 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->close();
 
             if ($price !== null) {
-                $stmt = $conn->prepare("INSERT INTO order_items (order_id, menu_item_id, quantity, price, status)
-                                        VALUES (?, ?, ?, ?, ?)");
-                $stmt->bind_param("iiids", $order_id, $menu_item_id, $quantity, $price, $status);
+                $stmt = $conn->prepare("INSERT INTO order_items (staff_id,order_id, menu_item_id, quantity, price, status)
+                                        VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("iiiids", $id, $order_id, $menu_item_id, $quantity, $price, $status);
                 $stmt->execute();
                 $stmt->close();
             }

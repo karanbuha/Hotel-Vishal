@@ -60,7 +60,7 @@
                         <a class="nav-link" href="<?php echo "{$admin}today_orders/"; ?>">Today Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo "{$admin}"; ?>">Pricing</a>
+                        <a class="nav-link" href="<?php echo "{$admin}menu_items"; ?>">Menu Items</a>
                     </li>
                 </ul>
             </div>

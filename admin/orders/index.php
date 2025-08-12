@@ -35,8 +35,8 @@ if ($row['status'] == 'not_available') {
                     $c_num = $_POST['c_num'];
                     $status = 'pending';
 
-                    $stmt = $conn->prepare("INSERT INTO orders (t_id, c_name, c_num, status) VALUES (?,?,?,?)");
-                    $stmt->bind_param("ssss", $t_id, $c_name, $c_num, $status);
+                    $stmt = $conn->prepare("INSERT INTO orders (staff_id, t_id, c_name, c_num, status) VALUES (?,?,?,?,?)");
+                    $stmt->bind_param("sssss", $id, $t_id, $c_name, $c_num, $status);
                     if ($stmt->execute()) {
                         echo "Order inserted successfully.";
                     } else {
@@ -69,8 +69,8 @@ if ($row['status'] == 'not_available') {
                         <div class='row flex-wrap align-items-start'>
                     ";
                     while ($row = $result->fetch_assoc()) {?>
-                    <div class='col col-sm-6'>
-                        <table class='table table-striped' >
+                    <div class='col col-sm-6 overflow-auto'>
+                        <table class='table table-striped table-responsive' >
                             <tr>
                                 <!-- <a href='place_order.php?o_id={$row['id']}'>Add Order</a> -->
                                 <th colspan="6" cellpadding="10">
@@ -78,10 +78,15 @@ if ($row['status'] == 'not_available') {
                                         echo "
                                         Name: {$row['c_name']} (M: {$row['c_num']}) <br>
                                         Date. {$row['date']} <br> Dine In: {$t_id} - Order. #{$row['id']} <br>
-                                        <a href='place_order.php?o_id={$row['id']}'>Add Order</a> <br>
+                                        
                                         ";
+                                        if($row['status'] == 'pending'){
+                                            echo "
+                                            <a href='place_order.php?o_id={$row['id']}'>Add Order</a> <br>
+                                            ";
+                                        }
                                     ?>
-                                    <label class="switch">
+                                    <label class="switch <?= $row['status'] === 'paid' ? 'paid' : 'pending' ?>">
                                         <input type="checkbox" class="bill_generate" 
                                             data-orderid="<?= $row['id'] ?>" 
                                             <?= $row['status'] === 'paid' ? 'checked' : '' ?>>
@@ -97,32 +102,20 @@ if ($row['status'] == 'not_available') {
                                 <th>item</th>
                                 <th>qty</th>
                                 <th>price</th>
-                                <th>ammount</th>
+                                <th>amount</th>
                                 <th>status</th>
                                 <th>action</th>
                             </tr>
 
-                                    <?php
+                                <?php
                                     $order_id = $row['id'];
-                                   $sql_items = "
-    SELECT 
-        oi.id,
-        mi.en_name, 
-        oi.quantity, 
-        oi.price, 
-        (oi.quantity * oi.price) AS amount,
-        oi.status
-    FROM order_items oi
-    JOIN menu_items mi ON oi.menu_item_id = mi.id
-    WHERE oi.order_id = $order_id
-";
-
+                                    $sql_items = "SELECT oi.id, mi.en_name, oi.quantity, oi.price, (oi.quantity * oi.price) AS amount, oi.status FROM order_items oi JOIN menu_items mi ON oi.menu_item_id = mi.id WHERE oi.order_id = $order_id ";
 
                                     $result_items = $conn->query($sql_items);
                                     $total_qty = 0;
                                     $sub_total = 0;
                                     
-                                    ?>
+                                ?>
 
                                     <tbody>
                                     <?php while ($item = $result_items->fetch_assoc()): ?>
