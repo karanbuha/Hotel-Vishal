@@ -117,83 +117,84 @@ if ($row['status'] == 'not_available') {
                                     
                                 ?>
 
-                                    <tbody>
-                                    <?php while ($item = $result_items->fetch_assoc()): ?>
-                                        <tr data-id="<?= number_format($item['id']) ?>">
-                                            <td><?= htmlspecialchars($item['en_name']) ?></td>
-                                            <td><?= $item['quantity'] ?></td>
-                                            <td><?= number_format($item['price'], 2) ?></td>
-                                            <td><?= number_format($item['amount'], 2) ?></td>
-                                            <td width="100">
-                                                <label class="switch">
-                                                    <input type="checkbox" class="orderStatus" 
-                                                        data-itemid="<?= $item['id'] ?>" 
-                                                        <?= $item['status'] === 'delivered' ? 'checked' : '' ?>>
-                                                    <span class="slider"></span>
-                                                    <span class="status-label">
-                                                        <?= $item['status'] === 'delivered' ? 'delivered' : 'pending' ?>
-                                                    </span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary delete-btn" >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16"><path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"></path></svg>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <?php 
-                                            $total_qty += $item['quantity'];
-                                            $sub_total += $item['amount'];
-                                        ?>
-                                    <?php endwhile; ?>
-                                    </tbody>
-
-                                    <?php
-                                        $cgst = round($sub_total * 0.025, 2);
-                                        $sgst = round($sub_total * 0.025, 2);
-                                        $grand_total = $sub_total + $cgst + $sgst;
+                                <tbody>
+                                <?php while ($item = $result_items->fetch_assoc()): ?>
+                                    <tr data-id="<?= number_format($item['id']) ?>">
+                                        <td><?= htmlspecialchars($item['en_name']) ?></td>
+                                        <td><?= $item['quantity'] ?></td>
+                                        <td><?= number_format($item['price'], 2) ?></td>
+                                        <td><?= number_format($item['amount'], 2) ?></td>
+                                        <td width="100">
+                                            <label class="switch">
+                                                <input type="checkbox" class="orderStatus" 
+                                                    data-itemid="<?= $item['id'] ?>" 
+                                                    <?= $item['status'] === 'delivered' ? 'checked' : '' ?>>
+                                                <span class="slider"></span>
+                                                <span class="status-label">
+                                                    <?= $item['status'] === 'delivered' ? 'delivered' : 'pending' ?>
+                                                </span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary delete-btn" >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16"><path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"></path></svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <?php 
+                                        $total_qty += $item['quantity'];
+                                        $sub_total += $item['amount'];
                                     ?>
+                                <?php endwhile; ?>
+                                </tbody>
 
-                                    <tfoot>
-                                        <tr class="table-primary">
-                                            <td>Total Qty</td>
-                                            <td><?= $total_qty ?></td>
-                                            <td>Sub Total</td>
-                                            <td>₹<?= number_format($sub_total, 2) ?></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="">
-                                            <td></td>
-                                            <td>CGST</td>
-                                            <td>2.5%</td>
-                                            <td>₹<?= number_format($cgst, 2) ?></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="">
-                                            <td></td>
-                                            <td>SGST</td>
-                                            <td>2.5%</td>
-                                            <td>₹<?= number_format($sgst, 2) ?></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="table-success">
-                                            <th class="text-right" colspan="3">Grand Total</th>
-                                            <th>₹<?= number_format($grand_total, 2) ?></th>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tfoot>
+                                <?php
+                                    // $cgst = round($sub_total * 0.025, 2);
+                                    // $sgst = round($sub_total * 0.025, 2);
+                                    // $grand_total = $sub_total + $cgst + $sgst;
+                                    $cgst = round($sub_total * $row['cgst'] / 100, 2);
+                                    $sgst = round($sub_total * $row['sgst'] / 100, 2);
+                                    $grand_total = $sub_total + $cgst + $sgst;
+                                ?>
 
-                              
+                                <tfoot>
+                                    <tr class="table-primary">
+                                        <td>Total Qty</td>
+                                        <td><?= $total_qty ?></td>
+                                        <td>Sub Total</td>
+                                        <td>₹<?= number_format($sub_total, 2) ?></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="">
+                                        <td></td>
+                                        <td>CGST</td>
+                                        <td><?= $row['cgst'] ?>%</td>
+                                        <td>₹<?= number_format($cgst, 2) ?></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="">
+                                        <td></td>
+                                        <td>SGST</td>
+                                        <td><?= $row['sgst'] ?>%</td>
+                                        <td>₹<?= number_format($sgst, 2) ?></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="table-success">
+                                        <th class="text-right" colspan="3">Grand Total</th>
+                                        <th>₹<?= number_format($grand_total, 2) ?></th>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
                         </table>
                     </div>
                     <?php }
                     echo "</div>";
                 } else {
-                    echo "<p>Customer order not placed.</p>";
+                    echo "<p>No data found</p>";
                 }
             ?>
         </div>

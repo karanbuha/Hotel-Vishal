@@ -107,7 +107,7 @@
                     <?php }
                     echo "</div>";
                 } else {
-                    echo "<p>Customer order not placed.</p>";
+                    echo "<p>No data found</p>";
                 }
             ?>
         </div>

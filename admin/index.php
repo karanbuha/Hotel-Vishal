@@ -40,10 +40,12 @@ if (($handle = fopen($filename, "r")) !== false) {
 				$available_is = '';
 				if($row['status'] == 'available'){
 					$available_is = 'available';
-					$ava_txt = 'ખાલી (Available)';
+					// $ava_txt = 'ખાલી (Available)';
+					$ava_txt = 'Available';
 				}elseif($row['status'] == 'not_available'){
 					$available_is = 'not_available';
-					$ava_txt = 'ભરેલું (Not Available)';
+					// $ava_txt = 'ભરેલું (Not Available)';
+					$ava_txt = 'Not Available';
 				}
 			?>
 				<div class="table_num <?php echo $available_is ?> col-6 col-sm-4 mb-3 mb-md-3 px-2 px-sm-2">
