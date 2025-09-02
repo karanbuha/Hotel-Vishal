@@ -4,46 +4,44 @@ include '../../header.php';
 
 if ( isset($_GET['o_id']) ) {
     $o_id = $_GET['o_id'];
+    $orderResult = $conn->query("SELECT * FROM orders WHERE id='$o_id' ");
+    $row = $orderResult->fetch_assoc();
 }
 ?>
-
-<?php
-
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $order_id = $o_id;
-    $quantities = $_POST['quantity'];
-    $status = 'pending';
-
-    foreach ($quantities as $menu_item_id => $quantity) {
-        if ($quantity > 0) {
-            // Get price
-            $stmt = $conn->prepare("SELECT price FROM menu_items WHERE id = ?");
-            $stmt->bind_param("i", $menu_item_id);
-            $stmt->execute();
-            $stmt->bind_result($price);
-            $stmt->fetch();
-            $stmt->close();
-
-            if ($price !== null) {
-                $stmt = $conn->prepare("INSERT INTO order_items (staff_id,order_id, menu_item_id, quantity, price, status)
-                                        VALUES (?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("iiiids", $id, $order_id, $menu_item_id, $quantity, $price, $status);
-                $stmt->execute();
-                $stmt->close();
-            }
-        }
-    }
-
-    echo "<p style='color: green;'>Order placed successfully with selected items.</p>";
-}
-?>
-
 <div class="tables_main pt-3">
     <div class="container">
+        <?php
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $status = 'pending';
+                $quantities = $_POST['quantity'];
+                foreach ($quantities as $menu_item_id => $quantity) {
+                    if ($quantity > 0) {
+                        $stmt = $conn->prepare("SELECT gu_name, en_name, price FROM menu_items WHERE id = ?");
+                        $stmt->bind_param("i", $menu_item_id);
+                        $stmt->execute();
+                        $stmt->bind_result($gu_name, $en_name, $price);
+                        $stmt->fetch();
+                        $stmt->close();
+                        if ($price !== null) {
+                            $stmt = $conn->prepare("INSERT INTO order_items (staff_id, order_id, gu_name, en_name, menu_item_id, quantity, price, status)
+                                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                            $stmt->bind_param("iissiiis", $id, $o_id, $gu_name, $en_name, $menu_item_id, $quantity, $price, $status);
+                            $stmt->execute();
+                            $stmt->close();
+
+                            header("Location: " .$admin.'orders/?i_id='. $row['t_id']);
+                        }
+                    }
+                }
+
+                echo "<p style='color: green;'>Order placed successfully with selected items.</p>";
+            }
+        ?>
+
+
             
         <?php 
-            $orderResult = $conn->query("SELECT * FROM orders WHERE id='$o_id' ");
+            // $orderResult = $conn->query("SELECT * FROM orders WHERE id='$o_id' ");
             if ($orderResult->num_rows > 0) {
                 echo "
                 <div class='customer_order'>
@@ -107,14 +105,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $menuItem = $row['en_name'];
                 $price = number_format($row['price'], 2);
                 echo "
-                    <tr class='all {$CatName}'>
-                        <td>{$CatName}</td>
-                        <td>{$menuItem}</td>
-                        <td>{$price}</td>
-                        <td>
-                            <input type='number' name='quantity[{$rowID}]' value='0' min='0'>
-                        </td>
-                    </tr>
+                <tr class='all {$CatName}'>
+                <td>{$CatName}</td>
+                <td>{$menuItem}</td>
+                <td>{$price}</td>
+                <td>
+                    <input type='number' name='quantity[{$rowID}]' value='0' min='0'>
+                </td>
+                </tr>
                 ";
             }
             echo "
