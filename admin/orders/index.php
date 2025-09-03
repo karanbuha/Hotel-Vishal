@@ -104,7 +104,8 @@ if ($row['status'] == 'not_available') {
                                 <th>price</th>
                                 <th>amount</th>
                                 <th>status</th>
-                                <th>action</th>
+                                <?php if($row['status'] == 'pending'){echo "<th>action</th>";} ?>
+                                
                             </tr>
 
                                 <?php
@@ -135,11 +136,13 @@ if ($row['status'] == 'not_available') {
                                                 </span>
                                             </label>
                                         </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary delete-btn" >
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16"><path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"></path></svg>
-                                            </button>
-                                        </td>
+                                        <?php if($row['status'] == 'pending'){?>
+                                                <td>
+                                                    <button type='button' class='btn btn-primary delete-btn' >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16"><path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"></path></svg>
+                                                    </button>
+                                                </td>
+                                        <?php } ?>
                                     </tr>
                                     <?php 
                                         $total_qty += $item['quantity'];
@@ -164,30 +167,36 @@ if ($row['status'] == 'not_available') {
                                         <td>Sub Total</td>
                                         <td>₹<?= number_format($sub_total, 2) ?></td>
                                         <td></td>
-                                        <td></td>
+                                        <?php if($row['status'] == 'pending'){echo "<td></td>";} ?>
                                     </tr>
-                                    <tr class="">
-                                        <td></td>
-                                        <td>CGST</td>
-                                        <td><?= $row['cgst'] ?>%</td>
-                                        <td>₹<?= number_format($cgst, 2) ?></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    <?php if($row['cgst']>0){?>
+                                        <tr class="">
+                                            <td></td>
+                                            <td>CGST</td>
+                                            <td><?= $row['cgst'] ?>%</td>
+                                            <td>₹<?= number_format($cgst, 2) ?></td>
+                                            <td></td>
+                                            <?php if($row['status'] == 'pending'){echo "<td></td>";} ?>
+                                        </tr>
+                                    <?php }?>
+                                    <?php if($row['sgst']>0){?>
                                     <tr class="">
                                         <td></td>
                                         <td>SGST</td>
                                         <td><?= $row['sgst'] ?>%</td>
                                         <td>₹<?= number_format($sgst, 2) ?></td>
                                         <td></td>
-                                        <td></td>
+                                        <?php if($row['status'] == 'pending'){echo "<td></td>";} ?>
                                     </tr>
+                                    <?php }?>
+                                    <?php if($row['cgst']>0 | $row['sgst']>0){?>
                                     <tr class="table-success">
                                         <th class="text-right" colspan="3">Grand Total</th>
                                         <th>₹<?= number_format($grand_total, 2) ?></th>
                                         <td></td>
-                                        <td></td>
+                                        <?php if($row['status'] == 'pending'){echo "<td></td>";} ?>
                                     </tr>
+                                    <?php }?>
                                 </tfoot>
                         </table>
                     </div>

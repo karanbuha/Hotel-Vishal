@@ -47,15 +47,27 @@ if (($handle = fopen($filename, "r")) !== false) {
 					// $ava_txt = 'ભરેલું (Not Available)';
 					$ava_txt = 'Not Available';
 				}
+
 			?>
-				<div class="table_num <?php echo $available_is ?> col-6 col-sm-4 mb-3 mb-md-3 px-2 px-sm-2">
-					<a href="<?php echo $admin.'orders/?i_id='.$row['t_num'] ?>" class="tables_item_wrp text-decoration-none">
-						<?php echo '<span>Table '.$row['t_num'] .'</span>'; ?>
-						<?php
-							echo '<div>' . $ava_txt . '</div>';
-						?>
-					</a>
-				</div>
+                <?php if($row['t_num'] == 0){?>
+                    <div class="table_num <?php echo $available_is ?> col-6 col-sm-4 mb-3 mb-md-3 px-2 px-sm-2 order-0">
+                        <a href="<?php echo $admin.'orders/?i_id='.$row['t_num'] ?>" class="tables_item_wrp text-decoration-none">
+                            <?php echo '<span>Parcel</span>'; ?>
+                            <?php
+                                echo '<div>' . $ava_txt . '</div>';
+                            ?>
+                        </a>
+                    </div>
+                <?php } else{ ?>
+                    <div class="table_num <?php echo $available_is; ?> col-6 col-sm-4 mb-3 mb-md-3 px-2 px-sm-2 order-1">
+                        <a href="<?php echo $admin.'orders/?i_id='.$row['t_num'] ?>" class="tables_item_wrp text-decoration-none">
+                            <?php echo '<span>Table '.$row['t_num'] .'</span>'; ?>
+                            <?php
+                                echo '<div>' . $ava_txt . '</div>';
+                            ?>
+                        </a>
+                    </div>
+                <?php } ?>
 			<?php }
 			echo '</div>';
 		} else {
