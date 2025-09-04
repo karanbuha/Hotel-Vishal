@@ -62,6 +62,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo "{$admin}menu_items"; ?>">Menu Items</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo "{$admin}staffs"; ?>">Staffs</a>
+                    </li>
                 </ul>
             </div>
         </nav>
