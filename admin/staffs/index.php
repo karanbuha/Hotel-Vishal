@@ -26,11 +26,14 @@
 			        '$number',
 			        '$role'
 			    )";
-
 			    $res = mysqli_query($conn, $qry);
+                header('Refresh:1');
         }
         ?>
         <div class="row mb-5">
+            <div class="col-12">
+                <h2>Add new staff</h2>
+            </div>
             <div class="col-12">
                 <form action="" method="POST">
                     <div class="row">
@@ -58,7 +61,10 @@
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0) {
             echo "
-                <div class='table_nums row'>
+            <div class='table_nums row'>
+                <div class='col-12'>
+                    <h2>Staff list</h2>
+                </div>
                 <div class='col-12'>
                 <table class='table table-striped table-responsive'>
                 <tr>

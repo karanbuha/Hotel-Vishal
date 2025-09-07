@@ -52,3 +52,12 @@ ul.menu_tabs_list {display: flex; overflow: auto; gap: 10px; padding-bottom: 11p
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {-webkit-appearance: none; margin: 0; }
 /* Order place END */
+
+/* Form START */
+.form-group label {display: block; margin-bottom: 6px; text-transform: capitalize; }
+.ammountss .for_grp{width: 150px; display:inline-block; margin: 5px; }
+select.form-control{
+    background-image: var(--caret_down);
+    background-repeat: no-repeat; background-position: right 20px center; background-size: 10px; appearance: none;
+}
+/* Form END */

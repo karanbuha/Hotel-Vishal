@@ -5,30 +5,85 @@
 
 <div class="tables_main pt-3">
 	<div class="container">
+        <?php
+        if (isset($_POST['add_menu'])) {
+            $cat = htmlspecialchars($_POST['cat']);
+            $gu_name = htmlspecialchars($_POST['gu_name']);
+            $en_name = htmlspecialchars($_POST['en_name']);
+            $price = htmlspecialchars($_POST['price']);
+            $status = 'active';
+
+                $qry = "INSERT INTO menu_items (
+			        cat,
+			        gu_name,
+			        en_name,
+			        price,
+			        status
+			    ) VALUES (
+			        '$cat',
+			        '$gu_name',
+			        '$en_name',
+			        '$price',
+			        '$status'
+			    )";
+			    $res = mysqli_query($conn, $qry);
+                header('Refresh:1');
+        }
+        ?>
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2>Add new menu</h2>
+            </div>
+            <div class="col-12">
+                <form action="" method="POST">
+                    <div class="row">
+                        <div class="form-group col-12 col-sm-6 col-lg-3">
+                            <input type="text" name="cat" class="form-control" placeholder="category" required="">
+                        </div>
+                        <div class="form-group col-12 col-sm-6 col-lg-3">
+                            <input type="text" name="gu_name" class="form-control" placeholder="gujarati name" required="">
+                        </div>
+                        <div class="form-group col-12 col-sm-6 col-lg-3">
+                            <input type="text" name="en_name" class="form-control" placeholder="english name" required="">
+                        </div>
+                        <div class="form-group col-12 col-sm-6 col-lg-3">
+                            <input type="number" name="price" class="form-control" placeholder="price" >
+                        </div>
+                        <div class="btns_wrp col-12">
+                            <button type="submit" name="add_menu" class="btn btn-primary">Add Details</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 		<?php
-		$sql = "SELECT * FROM menu_items";
+		$sql = "SELECT * FROM menu_items order by id desc";
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0) {
             echo "
-                <div class='table_nums row'>
+            <div class='table_nums row'>
+            <div class='col-12'>
+                    <h2>Menu list</h2>
+                </div>
+            <div class='col-12'>
                 <table class='table table-striped table-responsive'>
                 <tr>
                     <th>#</th>
-                    <th>cat</th>
-                    <th>gu_name</th>
-                    <th>en_name</th>
+                    <th>category</th>
+                    <th>GU name</th>
+                    <th>EN name</th>
                     <th>price</th>
                     <th>status</th>
-                    <th>date</th>
-                </tr>
-            ";
+                    </tr>
+                    ";
+                    // <th>date</th>
 			while($row = $result->fetch_assoc()) {
                 $statusClass = ($row['status'] === 'active') ? 'active' : 'deactive';
                 $checked = ($row['status'] === 'active') ? 'checked' : '';
                 $statusLabel = ($row['status'] === 'active') ? 'active' : 'deactive';
                 echo "
                     <tr id='{$row['id']}'>
-                        <td>{$row['id']}</td>
+                        <td><a href='edit.php?id={$row['id']}'>{$row['id']}</a></td>
                         <td>{$row['cat']}</td>
                         <td>{$row['gu_name']}</td>
                         <td>{$row['en_name']}</td>
@@ -40,19 +95,20 @@
                                 <span class='status-label text-nowrap' hidden>{$statusLabel}</span>
                             </label>
                         </td>
-                        <td>{$row['date']}</td>
-                    </tr>
-                ";
+                        </tr>
+                        ";
+                        // <td>{$row['date']}</td>
 			}
 
 			echo '</table>';
 			echo '</div>';
+            echo '</div>';
 		} else {
 			echo "No data found";
 		}
 		?>
 	</div>
-<div>
+</div>
     
 <script>
 $(document).on("change", ".menu_status", function () {

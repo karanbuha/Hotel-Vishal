@@ -59,8 +59,8 @@ if ($row['status'] == 'not_available') {
 
         <div class="customer_order_details">
             <?php
-                // $sql = "SELECT * FROM orders WHERE t_id = $t_id AND status = 'pending' ";
-                $sql = "SELECT * FROM orders WHERE t_id = $t_id ";
+                $sql = "SELECT * FROM orders WHERE t_id = $t_id AND status = 'pending' ";
+                // $sql = "SELECT * FROM orders WHERE t_id = $t_id ";
 
                 $result = $conn->query($sql);
 

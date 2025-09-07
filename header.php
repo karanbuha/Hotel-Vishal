@@ -40,6 +40,12 @@
 
     <!-- Main Style -->
     <link rel="stylesheet" type="text/css" href="<?php echo "{$web}assets/css/style.css"; ?>">
+
+    <style>
+        body{
+            --caret_down: url(<?php echo $images.'caret_down.svg' ?>);
+        }
+    </style>
 </head>
 <body>
 <div class="header_main navbar-light bg-light border-bottom">
