@@ -2,9 +2,13 @@
     include '../../db.php';
     include '../../header.php';
 ?>
-<div class="tables_main pt-3">
+<div class="tables_main pt-4">
     <div class="container">
-
+        <div class="row">
+            <div class="col-12">
+                <h2>today's orders list</h2>
+            </div>
+        </div>
         <div id="todays_order"></div>
 
         <?php if($web == ''){?>
@@ -126,7 +130,24 @@
         });
     }
     loadOrders();
-    setInterval(loadOrders, 50000);
+    setInterval(loadOrders, 5000);
+
+    $(document).on('change', '.statusCheckbox', function() {
+        var isChecked = $(this).is(':checked') ? 'not_available' : 'available';
+        var t_id = $(this).data('tid');
+
+        $.ajax({
+            url: 'table_update_status.php',  // This will be the PHP file handling update
+            method: 'POST',
+            data: { t_id: t_id, status: isChecked },
+            success: function(response) {
+            // alert('Status updated successfully!');
+            },
+            error: function() {
+            // alert('Failed to update status.');
+            }
+        });
+    });
 
     $(document).on('change', '.orderStatus', function() {
         var checkbox = $(this);

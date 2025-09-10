@@ -69,14 +69,14 @@ if ($row['status'] == 'not_available') {
     loadOrders();
     setInterval(loadOrders, 5000);
 
-$(document).on('change', '.statusCheckbox', function() {
-    var isChecked = $(this).is(':checked') ? 'not_available' : 'available';
-    var t_id = $(this).data('tid');
+    $(document).on('change', '.statusCheckbox', function() {
+        var isChecked = $(this).is(':checked') ? 'not_available' : 'available';
+        var t_id = $(this).data('tid');
 
-    $.ajax({
-        url: 'table_update_status.php',  // This will be the PHP file handling update
-        method: 'POST',
-        data: { t_id: t_id, status: isChecked },
+        $.ajax({
+            url: 'table_update_status.php',  // This will be the PHP file handling update
+            method: 'POST',
+            data: { t_id: t_id, status: isChecked },
             success: function(response) {
             // alert('Status updated successfully!');
             },
