@@ -7,9 +7,9 @@
         <div class="row">
             <div class="col-12">
                 <div class="links_wrp mb-3">
-                    <a href="todays_orders_complete.php">Todays completed orders</a>
+                    <a href="todays_orders.php">Todays pending orders</a>
                 </div>
-                <h2>Today's pending orders list</h2>
+                <h2>Today's completed orders list</h2>
             </div>
         </div>
         <div id="todays_order"></div>
@@ -128,7 +128,7 @@
 
 <script>
     function loadOrders() {
-        $.get("update_today_orders.php", function(data) {
+        $.get("update_today_orders_completed.php", function(data) {
             $("#todays_order").html(data);
         });
     }

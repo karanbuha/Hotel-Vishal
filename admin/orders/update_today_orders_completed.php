@@ -4,7 +4,7 @@
         <div class="customer_order_details">
             <?php
                 $today = date('Y-m-d');
-                $sql = "SELECT * FROM orders WHERE status='pending' and DATE(date) = '$today'";
+                $sql = "SELECT * FROM orders WHERE status='paid' and DATE(date) = '$today'";
 
                 $result = $conn->query($sql);
 
